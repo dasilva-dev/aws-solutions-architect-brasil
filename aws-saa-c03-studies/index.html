@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AWS SAA-C03 Studies Brasil</title>
+  <style>
+    :root {
+      --bg: #232F3E;
+      --panel: #2d3f53;
+      --panel-2: #1b2632;
+      --accent: #FF9900;
+      --text: #FFFFFF;
+      --muted: #c7d2dc;
+      --success: #1A9C3E;
+      --warning: #d98a00;
+      --border: rgba(255, 255, 255, 0.12);
+      --shadow: 0 16px 40px rgba(0, 0, 0, 0.24);
+    }
+
+    body.light {
+      --bg: #f2f6fa;
+      --panel: #ffffff;
+      --panel-2: #e8eef5;
+      --accent: #FF9900;
+      --text: #1d2733;
+      --muted: #526273;
+      --success: #1A9C3E;
+      --warning: #b86f00;
+      --border: rgba(35, 47, 62, 0.12);
+      --shadow: 0 16px 40px rgba(35, 47, 62, 0.1);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(255, 153, 0, 0.18), transparent 26%),
+        linear-gradient(180deg, var(--bg), var(--panel-2));
+      color: var(--text);
+    }
+
+    a { color: inherit; }
+
+    .shell {
+      width: min(1200px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    header {
+      padding: 28px 0 12px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: linear-gradient(180deg, rgba(35, 47, 62, 0.94), rgba(35, 47, 62, 0.72), transparent);
+      backdrop-filter: blur(10px);
+    }
+
+    body.light header {
+      background: linear-gradient(180deg, rgba(242, 246, 250, 0.94), rgba(242, 246, 250, 0.78), transparent);
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--accent), #ffbf5c);
+      color: #232F3E;
+      box-shadow: var(--shadow);
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: clamp(1.35rem, 2vw, 2rem);
+      letter-spacing: -0.03em;
+    }
+
+    .brand p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    button, .button-link {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+
+    button:hover, .button-link:hover {
+      transform: translateY(-1px);
+      border-color: rgba(255, 153, 0, 0.45);
+    }
+
+    .hero {
+      padding: 36px 0 22px;
+      display: grid;
+      grid-template-columns: 1.25fr 0.95fr;
+      gap: 20px;
+    }
+
+    .hero-card, .panel {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card {
+      padding: 28px;
+      background:
+        linear-gradient(135deg, rgba(255, 153, 0, 0.11), transparent 40%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+    }
+
+    .hero h2 {
+      margin: 0 0 12px;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 1rem;
+    }
+
+    .hero-grid {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .stat {
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.4rem;
+      color: var(--accent);
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .panel {
+      padding: 24px;
+    }
+
+    .progress-rail {
+      height: 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+      margin: 14px 0 10px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, var(--accent), #ffd089);
+      transition: width 0.25s ease;
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .summary .tile {
+      background: var(--panel-2);
+      border-radius: 18px;
+      padding: 14px;
+      border: 1px solid var(--border);
+    }
+
+    .summary strong {
+      font-size: 1.3rem;
+      color: var(--accent);
+      display: block;
+    }
+
+    main {
+      padding: 8px 0 48px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin: 20px 0 18px;
+      flex-wrap: wrap;
+    }
+
+    .section-head h3 {
+      margin: 0;
+      font-size: 1.45rem;
+    }
+
+    .section-head p {
+      margin: 6px 0 0;
+      color: var(--muted);
+    }
+
+    .filters {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .filter-chip.active {
+      background: var(--accent);
+      color: #232F3E;
+      border-color: transparent;
+    }
+
+    .module-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .module-card {
+      padding: 18px;
+      border-radius: 22px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.05);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .module-top {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .module-num {
+      font-size: 0.85rem;
+      color: var(--accent);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .module-title {
+      margin: 6px 0 0;
+      font-size: 1.05rem;
+      line-height: 1.35;
+    }
+
+    .badge {
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      white-space: nowrap;
+      border: 1px solid transparent;
+    }
+
+    .badge.complete { background: rgba(26, 156, 62, 0.16); color: #9ff0b3; border-color: rgba(26, 156, 62, 0.35); }
+    .badge.partial { background: rgba(255, 153, 0, 0.16); color: #ffd089; border-color: rgba(255, 153, 0, 0.35); }
+    .badge.pending { background: rgba(255, 255, 255, 0.08); color: var(--muted); border-color: var(--border); }
+
+    .module-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 0.95rem;
+      flex: 1;
+    }
+
+    .module-meta {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .file-links {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .file-link {
+      font-size: 0.82rem;
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--panel-2);
+      color: var(--text);
+      text-decoration: none;
+      text-align: center;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .file-link:hover {
+      border-color: rgba(255, 153, 0, 0.45);
+      transform: translateY(-1px);
+    }
+
+    .tag {
+      font-size: 0.75rem;
+      padding: 6px 9px;
+      border-radius: 999px;
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    .module-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .module-actions label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .module-actions input {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--success);
+    }
+
+    .module-link[aria-disabled="true"] {
+      opacity: 0.45;
+      pointer-events: none;
+    }
+
+    .simulados {
+      margin-top: 28px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .sim-card {
+      padding: 18px;
+      border-radius: 22px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .sim-card strong {
+      font-size: 1.3rem;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .sim-card p {
+      color: var(--muted);
+      line-height: 1.6;
+      min-height: 76px;
+    }
+
+    footer {
+      padding: 16px 0 36px;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .module-grid,
+      .simulados {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-grid,
+      .summary {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 620px) {
+      .hero-grid,
+      .summary {
+        grid-template-columns: 1fr;
+      }
+
+      .shell {
+        width: min(100% - 20px, 1200px);
+      }
+
+      .hero-card,
+      .panel,
+      .module-card,
+      .sim-card {
+        border-radius: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="shell topbar">
+      <a class="brand" href="#topo">
+        <div class="brand-mark" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13 45L20 19H28L35 45H29.5L28.2 39.6H20L18.7 45H13ZM21.4 34.9H26.8L24.1 23.8L21.4 34.9Z" fill="currentColor"/>
+            <path d="M38 45V19H44.8C50.7 19 54 21.5 54 26.5C54 29.5 52.5 31.6 50 32.7C53 33.6 55 35.8 55 39.1C55 43.2 51.9 45 46.7 45H38ZM43.3 29.8H45.5C47.8 29.8 49.1 28.8 49.1 26.9C49.1 24.7 47.7 23.9 45.2 23.9H43.3V29.8ZM43.3 40.2H46C48.7 40.2 50 39.2 50 37.1C50 34.8 48.2 33.8 45.6 33.8H43.3V40.2Z" fill="currentColor"/>
+            <path d="M10 50C19 57 45 57 54 50" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <h1>AWS Certified Solutions Architect – Associate</h1>
+          <p>SAA-C03 em Português do Brasil, com foco em arquitetura real.</p>
+        </div>
+      </a>
+      <div class="actions">
+        <button id="themeToggle" type="button">Alternar tema</button>
+        <a class="button-link" href="README.md">README</a>
+        <a class="button-link" href="https://github.com/Thiago-code-lab/aws-saa-c03-studies" target="_blank" rel="noreferrer">Repositório</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="shell" id="topo">
+    <section class="hero">
+      <article class="hero-card">
+        <h2>Estudo guiado para pensar como arquiteto, não só acertar alternativa.</h2>
+        <p>O exame SAA-C03 cobra decisão técnica contextual: escolher serviço, justificar trade-off, reconhecer gargalo, reduzir custo e manter segurança. Este portal organiza o repositório por módulos, simulados e progresso pessoal salvo no navegador.</p>
+        <div class="hero-grid">
+          <div class="stat"><strong>21</strong><span>Módulos planejados</span></div>
+          <div class="stat"><strong>315</strong><span>Questões totais</span></div>
+          <div class="stat"><strong>6</strong><span>Semanas sugeridas</span></div>
+          <div class="stat"><strong>4</strong><span>Domínios da prova</span></div>
+        </div>
+      </article>
+      <aside class="panel">
+        <h3>📈 Progresso geral</h3>
+        <p id="progressText">0 de 21 módulos concluídos</p>
+        <div class="progress-rail" aria-hidden="true">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <small>O progresso é salvo em localStorage neste navegador.</small>
+        <div class="summary">
+          <div class="tile"><strong>30%</strong><span>Resilient Architectures</span></div>
+          <div class="tile"><strong>28%</strong><span>High-Performing</span></div>
+          <div class="tile"><strong>24%</strong><span>Secure Applications</span></div>
+          <div class="tile"><strong>18%</strong><span>Cost-Optimized</span></div>
+        </div>
+      </aside>
+    </section>
+
+    <main>
+      <section>
+        <div class="section-head">
+          <div>
+            <h3>📦 Módulos</h3>
+            <p>Marque os módulos concluídos e filtre por domínio para direcionar a revisão.</p>
+          </div>
+          <div class="filters" id="filters"></div>
+        </div>
+        <div class="module-grid" id="moduleGrid"></div>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <div>
+            <h3>🧪 Simulados</h3>
+            <p>Os simulados aparecem aqui assim que forem publicados no repositório.</p>
+          </div>
+        </div>
+        <div class="simulados" id="simulados"></div>
+      </section>
+    </main>
+
+    <footer>
+      <span>Última atualização: 12 de março de 2026</span>
+      <span>GitHub Pages com HTML, CSS e JavaScript puro.</span>
+    </footer>
+  </div>
+
+  <script>
+    const modules = [
+      { id: "01", icon: "🧭", title: "Introdução SAA-C03", domain: "Fundamentos", status: "complete", folder: "01-Introducao-SAA-C03", description: "Estrutura do exame, domínios, estratégia de estudo e plano de evolução.", tags: ["exam", "strategy"] },
+      { id: "02", icon: "🔐", title: "IAM e Segurança", domain: "Secure", status: "complete", folder: "02-IAM-e-Seguranca", description: "Identidade, autorização, KMS, Organizations e proteção de credenciais.", tags: ["iam", "kms"] },
+      { id: "03", icon: "🖥️", title: "Computação EC2", domain: "High-Performing", status: "complete", folder: "03-Computacao-EC2", description: "Famílias de instância, EBS, AMIs e estratégias de computação.", tags: ["ec2", "ebs"] },
+      { id: "04", icon: "📈", title: "Alta Disponibilidade e Escalabilidade", domain: "Resilient", status: "complete", folder: "04-Alta-Disponibilidade-e-Escalabilidade", description: "ALB, NLB, ASG, health checks e escalabilidade automática.", tags: ["elb", "asg"] },
+      { id: "05", icon: "🌐", title: "VPC e Redes", domain: "Secure", status: "complete", folder: "05-VPC-e-Redes", description: "Subnets, rotas, NAT, segurança em rede e conectividade híbrida.", tags: ["vpc", "network"] },
+      { id: "06", icon: "🗃️", title: "RDS e Bancos Relacionais", domain: "High-Performing", status: "complete", folder: "06-RDS-e-Bancos-Relacionais", description: "RDS, Aurora, Multi-AZ, Read Replica e tuning operacional.", tags: ["rds", "aurora"] },
+      { id: "07", icon: "⚡", title: "DynamoDB", domain: "High-Performing", status: "complete", folder: "07-DynamoDB", description: "Modelagem NoSQL, índices, streams, TTL e padrões de acesso.", tags: ["dynamodb", "nosql"] },
+      { id: "08", icon: "🪣", title: "S3 Avançado", domain: "Cost-Optimized", status: "complete", folder: "08-S3-Avancado", description: "Versioning, lifecycle, eventos, replicação e custo por classe.", tags: ["s3", "storage"] },
+      { id: "09", icon: "🛡️", title: "IAM e Segurança Avançada", domain: "Secure", status: "complete", folder: "09-IAM-e-Seguranca", description: "Boundaries, STS, ABAC, Access Analyzer e serviços de proteção.", tags: ["security", "sts"] },
+      { id: "10", icon: "📨", title: "SQS, SNS e Mensageria", domain: "Resilient", status: "complete", folder: "10-SQS-SNS-Mensageria", description: "Filas, tópicos, DLQ, fan-out e arquitetura orientada a eventos.", tags: ["messaging", "events"] },
+      { id: "11", icon: "🚀", title: "Serverless: Lambda e API Gateway", domain: "Cost-Optimized", status: "complete", folder: "11-Serverless-Lambda-API-Gateway", description: "Funções, integração HTTP, observabilidade e limites práticos.", tags: ["lambda", "api"] },
+      { id: "12", icon: "📊", title: "Dados e Analytics", domain: "High-Performing", status: "complete", folder: "12-Dados-e-Analytics", description: "Athena, Glue, Redshift, Kinesis e arquitetura de dados analítica.", tags: ["analytics", "data"] },
+      { id: "13", icon: "🤖", title: "Machine Learning e IA", domain: "High-Performing", status: "complete", folder: "13-Machine-Learning-e-IA", description: "Serviços gerenciados de IA para visão, texto, voz e LLMs.", tags: ["ai", "ml"] },
+      { id: "14", icon: "📡", title: "Monitoramento: CloudWatch e CloudTrail", domain: "Secure", status: "complete", folder: "14-Monitoramento-CloudWatch-CloudTrail", description: "Logs, métricas, auditoria, rastreamento e conformidade contínua.", tags: ["observability", "audit"] },
+      { id: "15", icon: "🚚", title: "Migração e Transferência", domain: "Cost-Optimized", status: "complete", folder: "15-Migracao-e-Transferencia", description: "DMS, DataSync, MGN, Snow Family e estratégias 6Rs.", tags: ["migration", "transfer"] },
+      { id: "16", icon: "🏛️", title: "Well-Architected Framework", domain: "Resilient", status: "complete", folder: "16-Well-Architected-Framework", description: "Os 6 pilares, avaliações e melhoria contínua de arquitetura.", tags: ["well-architected", "pillars"] },
+      { id: "17", icon: "🏗️", title: "Casos de Uso Reais", domain: "Resilient", status: "complete", folder: "17-Casos-de-Uso-Reais", description: "Arquiteturas completas com trade-offs e padrões de mercado.", tags: ["cases", "architecture"] },
+      { id: "18", icon: "🛠️", title: "Labs Práticos", domain: "Todos", status: "complete", folder: "18-Labs-Praticos", description: "Cenários práticos de troubleshooting e implementação real.", tags: ["hands-on", "labs"] },
+      { id: "19", icon: "📝", title: "Simulados e Questões", domain: "Todos", status: "complete", folder: "19-Simulados-e-Questoes", description: "Banco de questões, simulados guiados e acompanhamento de evolução.", tags: ["mock", "exam"] },
+      { id: "20", icon: "📚", title: "Glossário", domain: "Fundamentos", status: "complete", folder: "20-Glossario", description: "Vocabulário técnico para revisão rápida e interpretação de cenários.", tags: ["glossary", "review"] },
+      { id: "21", icon: "🔗", title: "Recursos e Links", domain: "Fundamentos", status: "complete", folder: "21-Recursos-e-Links", description: "Curadoria de documentação, cursos, comunidades e trilha de estudo.", tags: ["docs", "resources"] }
+    ].map((item) => ({
+      ...item,
+      link: `./${item.folder}/README.md`,
+      files: [
+        { name: "README", path: `./${item.folder}/README.md` },
+        { name: "Questões", path: `./${item.folder}/questoes.md` },
+        { name: "Flashcards", path: `./${item.folder}/flashcards.md` },
+        { name: "Cheatsheet", path: `./${item.folder}/cheatsheet.md` },
+        { name: "Casos", path: `./${item.folder}/casos-de-uso.md` },
+        { name: "Lab", path: `./${item.folder}/lab.md` },
+        { name: "Links", path: `./${item.folder}/links.md` }
+      ]
+    }));
+
+    const simulations = [
+      { title: "Simulado 01", info: "65 questões com distribuição proporcional aos domínios do exame.", href: "", status: "Em produção" },
+      { title: "Simulado 02", info: "65 questões com foco em cenários arquiteturais complexos.", href: "", status: "Em produção" },
+      { title: "Simulado 03", info: "65 questões mais desafiadoras, incluindo multi-step reasoning.", href: "", status: "Em produção" }
+    ];
+
+    const filters = ["Todos", "Fundamentos", "Resilient", "High-Performing", "Secure", "Cost-Optimized", "Todos os módulos publicados"];
+    const grid = document.getElementById("moduleGrid");
+    const filtersBox = document.getElementById("filters");
+    const progressText = document.getElementById("progressText");
+    const progressFill = document.getElementById("progressFill");
+    const simulados = document.getElementById("simulados");
+    const storageKey = "aws-saa-c03-progress";
+    const themeKey = "aws-saa-c03-theme";
+    let activeFilter = "Todos";
+    let progress = JSON.parse(localStorage.getItem(storageKey) || "{}");
+
+    const publishedIds = new Set(modules.filter((item) => item.status === "complete" || item.status === "partial").map((item) => item.id));
+
+    function getBadge(status) {
+      if (status === "complete") return { text: "Publicado", className: "complete" };
+      if (status === "partial") return { text: "Parcial", className: "partial" };
+      return { text: "Pendente", className: "pending" };
+    }
+
+    function filteredModules() {
+      return modules.filter((item) => {
+        if (activeFilter === "Todos") return true;
+        if (activeFilter === "Todos os módulos publicados") return publishedIds.has(item.id);
+        return item.domain === activeFilter;
+      });
+    }
+
+    function renderFilters() {
+      filtersBox.innerHTML = "";
+      filters.forEach((filter) => {
+        const chip = document.createElement("button");
+        chip.type = "button";
+        chip.className = `filter-chip${filter === activeFilter ? " active" : ""}`;
+        chip.textContent = filter;
+        chip.addEventListener("click", () => {
+          activeFilter = filter;
+          renderFilters();
+          renderModules();
+        });
+        filtersBox.appendChild(chip);
+      });
+    }
+
+    function renderModules() {
+      grid.innerHTML = "";
+      filteredModules().forEach((item) => {
+        const badge = getBadge(item.status);
+        const checked = Boolean(progress[item.id]);
+        const filesHtml = item.files.map((file) => `<a class="file-link" href="${file.path}">${file.name}</a>`).join("");
+        const card = document.createElement("article");
+        card.className = "module-card";
+        card.innerHTML = `
+          <div class="module-top">
+            <div>
+              <div class="module-num">${item.id} · ${item.icon}</div>
+              <h4 class="module-title">${item.title}</h4>
+            </div>
+            <span class="badge ${badge.className}">${badge.text}</span>
+          </div>
+          <p>${item.description}</p>
+          <div class="module-meta">
+            <span class="tag">${item.domain}</span>
+            ${item.tags.map((tag) => `<span class="tag">${tag}</span>`).join("")}
+          </div>
+          <div class="file-links">
+            ${filesHtml}
+          </div>
+          <div class="module-actions">
+            <label>
+              <input type="checkbox" data-id="${item.id}" ${checked ? "checked" : ""}>
+              Concluído
+            </label>
+            <a class="button-link module-link" href="${item.link}">Abrir README</a>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+
+      grid.querySelectorAll("input[type='checkbox']").forEach((checkbox) => {
+        checkbox.addEventListener("change", (event) => {
+          progress[event.target.dataset.id] = event.target.checked;
+          localStorage.setItem(storageKey, JSON.stringify(progress));
+          updateProgress();
+        });
+      });
+    }
+
+    function updateProgress() {
+      const total = modules.length;
+      const done = Object.values(progress).filter(Boolean).length;
+      progressText.textContent = `${done} de ${total} módulos concluídos`;
+      progressFill.style.width = `${(done / total) * 100}%`;
+    }
+
+    function renderSimulations() {
+      simulados.innerHTML = simulations.map((item) => `
+        <article class="sim-card">
+          <strong>${item.title}</strong>
+          <p>${item.info}</p>
+          <a class="button-link module-link" ${item.href ? `href="${item.href}"` : 'aria-disabled="true"'}>${item.href ? "Abrir simulado" : item.status}</a>
+        </article>
+      `).join("");
+    }
+
+    function applyTheme() {
+      const savedTheme = localStorage.getItem(themeKey);
+      if (savedTheme === "light") {
+        document.body.classList.add("light");
+      }
+    }
+
+    document.getElementById("themeToggle").addEventListener("click", () => {
+      document.body.classList.toggle("light");
+      localStorage.setItem(themeKey, document.body.classList.contains("light") ? "light" : "dark");
+    });
+
+    applyTheme();
+    renderFilters();
+    renderModules();
+    renderSimulations();
+    updateProgress();
+  </script>
+</body>
+</html>
