@@ -5,27 +5,39 @@ on:
     branches: [main]
   workflow_dispatch:
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
+
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: true
 
 jobs:
   deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/configure-pages@v5
-        with:
-          enablement: true
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: .
-      - id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Publish static site to gh-pages
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          TMP_DIR="$(mktemp -d)"
+          rsync -av --delete --exclude '.git' --exclude '.github' ./ "$TMP_DIR/"
+
+          git switch --orphan gh-pages
+          git rm -rf . >/dev/null 2>&1 || true
+
+          cp -R "$TMP_DIR"/. .
+          touch .nojekyll
+
+          git add -A
+          git commit -m "deploy: $(date -u +'%Y-%m-%dT%H:%M:%SZ')" || {
+            echo "No changes to publish"
+            exit 0
+          }
+
+          git push --force origin gh-pages
