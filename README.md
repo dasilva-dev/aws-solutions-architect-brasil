@@ -7,6 +7,25 @@
 <p align="center"><strong>Criado por Thiago Cardoso</strong><br/>
 <a href="https://www.linkedin.com/in/analyticsthiagocardoso">LinkedIn</a></p>
 
+---
+
+## ☕ Apoie este Projeto
+
+Se este conteúdo ajudou nos seus estudos para a certificação **AWS Solutions Architect Associate**, considere apoiar com um café! O projeto é 100% gratuito e qualquer contribuição ajuda a manter o material atualizado.
+
+### Doação via Pix
+
+Você pode usar a chave aleatória abaixo ou escanear o QR Code:
+
+**Chave Pix (Copia e Cola):**
+`c8ca2085-c329-4712-8da9-397d10b41cf5`
+
+<p align="center">
+  <img width="250" height="250" alt="QR Code Pix" src="https://github.com/user-attachments/assets/57e2fa14-514e-40f7-b09e-15cdab752e69" />
+</p>
+
+---
+
  ## 🚦 Por onde começar
 
 - **Trilha para iniciantes (do zero):** siga [Módulo 01](./01-Introducao-SAA-C03/README.md) → [Módulo 02](./02-IAM-e-Seguranca/README.md) → [Módulo 04](./04-Computacao-EC2/README.md) → [Módulo 05](./05-Alta-Disponibilidade-e-Escalabilidade/README.md) → [Módulo 06](./06-Amazon-S3-e-Armazenamento/README.md) → [Módulo 08](./08-VPC-e-Redes/README.md) → [Módulo 10](./10-Banco-de-Dados/README.md) e complete na ordem até [Módulo 31](./31-Recursos-e-Links/README.md), incluindo os labs correspondentes em cada semana.
