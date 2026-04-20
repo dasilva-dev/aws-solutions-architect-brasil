@@ -35,6 +35,7 @@ Você pode usar a chave aleatória abaixo ou escanear o QR Code:
     />
   </a>
 </p>
+
  ## 🚦 Por onde começar
 
 - **Trilha para iniciantes (do zero):** siga [Módulo 01](./01-Introducao-SAA-C03/README.md) → [Módulo 02](./02-IAM-e-Seguranca/README.md) → [Módulo 04](./04-Computacao-EC2/README.md) → [Módulo 05](./05-Alta-Disponibilidade-e-Escalabilidade/README.md) → [Módulo 06](./06-Amazon-S3-e-Armazenamento/README.md) → [Módulo 08](./08-VPC-e-Redes/README.md) → [Módulo 10](./10-Banco-de-Dados/README.md) e complete na ordem até [Módulo 31](./31-Recursos-e-Links/README.md), incluindo os labs correspondentes em cada semana.
